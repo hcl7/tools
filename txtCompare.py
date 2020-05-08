@@ -27,10 +27,10 @@ def txtCompare(stxt, dtxt):
 	sTable = []
 	dTable = []
 	for x in sourceFile:
-		sTable.append(x)
+		sTable.append(x.rstrip())
 	sourceFile.close()
 	for t in destFile:
-		dTable.append(t)
+		dTable.append(t.rstrip())
 	destFile.close()
 	resultfile = open("notFounded.txt", "w+")
 	resultfile2 = open("Founded.txt", "w+")
@@ -40,12 +40,12 @@ def txtCompare(stxt, dtxt):
 			rline = xline.find(tline)
 			if rline != -1:
 				founded += 1
-				resultfile2.write(xline)
+				resultfile2.write(xline+'\n')
 				xline = ""
 		if tmpXline == xline:
 			if (checkLstForDublicatedLine(tmpNotFoundedLst, xline) == False):
 				notfounded += 1
-				resultfile.write(xline)
+				resultfile.write(xline+'\n')
 			tmpNotFoundedLst.append(xline)
 	print "[+] Founded=%s" % founded
 	print "[+] Not Founded %s" % notfounded
