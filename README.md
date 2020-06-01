@@ -1,21 +1,21 @@
 # Python Tools for Text Editing and Data Filtering 
 
-//is for comparing lines from two files
-txtCompare.py 
+txtCompare.py is for comparing lines from two files
+ 
 
-//is for frequency of the lines of file
-wordFrequencyFromFile.py 
+wordFrequencyFromFile.py is for frequency of the lines of file
+ 
 
-//read xml file from stream tag
-xmlread.py 
+xmlread.py read xml file from stream tag
 
-//update xml file with lines of file
-xmlUpdates.py 
 
-//remove duplicated lines of a file
-rmDublicatedLines.py 
+xmlUpdates.py update xml file with lines of file
+ 
 
-//remove string until specific character of lines of a file
-rmUntilTheLastChar.py 
+rmDublicatedLines.py remove duplicated lines of a file
+
+
+rmUntilTheLastChar.py remove string until specific character of lines of a file
+
 
 Every .py file has a description on the top
