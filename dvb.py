@@ -1,5 +1,7 @@
 import xlrd as x
 import sys
+import xlrd as x
+import sys
 
 __author__ = 'Elvin Mucaj'
 start_time = []
@@ -40,7 +42,8 @@ def readExcelGenerateXml(file):
 		
 	print("[+] Generating XML File!!!")
 	for p in range(len(start_time)):
-		wf.write(xml_inside.format(p, start_time[p]+" "+stime[p], duration[p], short[p], category[p], long[p])+'\n')
+		if(duration[p] != ""):
+			wf.write(xml_inside.format(p, start_time[p]+" "+stime[p], int((duration[p]*60)), short[p], category[p], long[p])+'\n')
 	wf.write(xml_end+'\n')
 	wf.close()
 	print("[+] Done!!!")
