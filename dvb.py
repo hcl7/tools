@@ -1,5 +1,4 @@
-import xlrd as x
-import sys
+
 import xlrd as x
 import sys
 
