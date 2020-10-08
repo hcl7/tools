@@ -1,8 +1,7 @@
-
 import xlrd as x
 import sys
 
-__author__ = 'Elvin Mucaj'
+__author__ = 'Elvin Mucaj 2020'
 start_time = []
 stime = []
 duration = []
@@ -18,6 +17,14 @@ xml_inside = '''<event id="{0}" start_time="{1}" duration="{2}">
 				<extended_event_descriptor lang="alb"><text>{5}</text></extended_event_descriptor>
 			</event>'''
 
+def formatDate(date):
+    return date.replace("/", "-")
+    
+def formatTime(time):
+    tmp = ":00"
+    time += tmp
+    return time
+    
 def readExcelGenerateXml(file):
 	wf = open("dvb.xml", "w+")
 	wf.write(xml_start+'\n')
@@ -42,7 +49,7 @@ def readExcelGenerateXml(file):
 	print("[+] Generating XML File!!!")
 	for p in range(len(start_time)):
 		if(duration[p] != ""):
-			wf.write(xml_inside.format(p, start_time[p]+" "+stime[p], int((duration[p]*60)), short[p], category[p], long[p])+'\n')
+			wf.write(xml_inside.format(p, formatDate(start_time[p])+" "+formatTime(stime[p]), int((duration[p]*60)), short[p], category[p], long[p])+'\n')
 	wf.write(xml_end+'\n')
 	wf.close()
 	print("[+] Done!!!")
