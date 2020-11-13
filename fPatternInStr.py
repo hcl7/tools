@@ -1,6 +1,7 @@
-#Find pattern in string
-#first file: str1;str2
-#second file: str1
+#Find pattern before ; char from first file one
+#Get pattern after ; char from file one
+#Match pattern before ; char from file one with line of file two
+#Write after ; char to result file
 import sys
 
 __author__ = 'Elvin SEVEN Mucaj'
