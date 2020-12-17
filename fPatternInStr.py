@@ -28,25 +28,27 @@ def getStringUntilChar(str, char):
 def getStringAfterChar(str, char):
 	return str[str.find(char) + len(char):]
 
-def findPatternInString(fxml, ftxt):
+def findPatternInString(f1, f2):
 	counter = 0
-	xmltable = []
-	txttable = []
-	xmltable = fileToList(fxml)
-	txttable = fileToList(ftxt)
-	resultfile = open("Founded.txt", "w+")
-	for rline in xmltable:
-		for tline in txttable:
-			before = getStringUntilChar(rline, ";").rstrip()
-			after = getStringAfterChar(rline, ";").rstrip()
-			tmp = tline.find(before)
+	f1table = []
+	f2table = []
+	f1table = fileToList(f1)
+	f2table = fileToList(f2)
+	resultfile = open("arkivFounded.txt", "w+")
+	for f1line in f1table:
+		for f2line in f2table:
+			before = getStringUntilChar(f1line, ";").rstrip()
+			after = getStringAfterChar(f1line, ";").rstrip()
+			tmp = f2line.find(before)
 			if tmp != -1:
 				counter += 1
 				resultfile.write(after+'\n')
+				print "[+] Hash Founded: ", before
 	print "[+] Founded %s " % counter
 	resultfile.close()
 
 if len(sys.argv) < 2:
-	print "[+] Usage: python",sys.argv[0]," <file1.txt> <file2.txt>"
+	print "[+] Usage: python",sys.argv[0]," <arkiv.txt> <etere.txt>"
 else:
 	findPatternInString(sys.argv[1], sys.argv[2])
+	
