@@ -1,4 +1,3 @@
-#compare two text files;
 import sys
 
 def updateStr(s, upd):
@@ -12,47 +11,39 @@ def strReplace(s1, s2, s3):
 def findReplaceWith(s1, s2, s3):
 	return s1.replace(s2, s3, 1)
 	
-def checkLstForDublicatedLine(lst, line):
-	if (line in lst):
-		return True
-	else:
-		return False
-	
-def txtCompare(stxt, dtxt):
-	tmpNotFoundedLst = []
+def readUpdate(stxt, dtxt):
 	founded = 0
-	notfounded = 0
+	notfound = 0
 	sourceFile = open(stxt, "r")
 	destFile = open(dtxt, "r")
 	sTable = []
 	dTable = []
-	for x in sourceFile:
-		sTable.append(x.rstrip())
+	for s in sourceFile:
+		sTable.append(s)
 	sourceFile.close()
-	for t in destFile:
-		dTable.append(t.rstrip())
+	for d in destFile:
+		dTable.append(d)
 	destFile.close()
-	resultfile = open("notFounded.txt", "w+")
-	resultfile2 = open("Founded.txt", "w+")
-	for xline in sTable:
-		tmpXline = xline
-		for tline in dTable:
-			rline = xline.find(tline)
-			if rline != -1:
+	notFoundedFile = open("notFounded.txt", "w+")
+	foundedFile = open("Founded.txt", "w+")
+	for i in range(len(sTable)):
+		sTmp = sTable[i]
+		for j in range(len(dTable)):
+			if dTable[j].find(sTable[i]) != -1:
 				founded += 1
-				resultfile2.write(xline+'\n')
-				xline = ""
-		if tmpXline == xline:
-			if (checkLstForDublicatedLine(tmpNotFoundedLst, xline) == False):
-				notfounded += 1
-				resultfile.write(xline+'\n')
-			tmpNotFoundedLst.append(xline)
+				foundedFile.write(sTable[i])
+				sTmp = ""
+				break
+		if sTmp == sTable[i]:
+			notfound += 1
+			notFoundedFile.write(sTable[i])
 	print "[+] Founded=%s" % founded
-	print "[+] Not Founded %s" % notfounded
-	resultfile.close()
-	resultfile2.close()
+	print "[+] Not Founded %s" % notfound
+	notFoundedFile.close()
+	foundedFile.close()
 
 if len(sys.argv) < 2:
 	print "[+] Usage: python",sys.argv[0]," <compare.txt> <with.txt>"
 else:
-	txtCompare(sys.argv[1], sys.argv[2])
+	readUpdate(sys.argv[1], sys.argv[2])
+	
