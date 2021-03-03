@@ -35,11 +35,27 @@ def logo():
 
 logo()
 
-def rainbow(n):
+letters = string.letters
+lettersDigits = string.letters + string.digits
+letterDigitsAscii = string.letters + string.digits + string.punctuation
+lowercase = string.ascii_lowercase
+uppercase = string.ascii_uppercase
+digits = string.digits
+
+mode = {
+  "mixed": "aA@bB9cC(dDeE3#fF7gG6hHiI1!jJ2kKlLmMnNoO0pPqQ8rR4sS5$tT)uUvVwWxXyYzZ9%&*.=?[]^{}~/\|", 
+  "letters": letters,
+  "lettersDigits": lettersDigits,
+  "letterDigitsAscii": letterDigitsAscii,
+  "lowercase": lowercase,
+  "uppercase": uppercase,
+  "digits": digits
+}
+
+def rainbow(n, m):
   x=1
-  allstr = "aA@bB9cC(dDeE3#fF7gG6hHiI1!jJ2kKlLmMnNoO0pPqQ8rR4sS5$tT)uUvVwWxXyYzZ9%&*.=?[]^{}~/\|"
+  allstr = mode.get(m)
   strlen = len(allstr)
-  #allstr = string.letters + string.digits + string.punctuation
   for x in range(x):
     for i in range(strlen):
       if n >= 1:
@@ -106,12 +122,15 @@ def Crack(passwd):
         print Yellow+"["+h4shrainbow+"]"+Default+"->"+Red+"["+passwd+"]"+Default
 
 if len(sys.argv) < 3:
-  print LightGreen+"usage: ",sys.argv[0]," <hashfile><pass length>"+Default
+  print LightGreen+"[+] Usage: ",sys.argv[0]," <hashfile><pass length><mode>"+Default
+  print Yellow+"[+] Modes: mixed, letters, lettersDigits, letterDigitsAscii, lowercase, uppercase, digits"
 else:
   try:
     crackfile = sys.argv[1]
-    for rain in rainbow(int(sys.argv[2])):
+    for rain in rainbow(int(sys.argv[2]), sys.argv[3]):
       Crack(rain)
   except:
     pass
+
+
 
