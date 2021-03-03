@@ -110,16 +110,21 @@ def timer():
   now = time.localtime(time.time())
   return time.asctime(now)
 
-def Crack(passwd):
-  with open(crackfile, "r") as f:
-    for h4sh in f:
-      h4sh = h4sh.translate(None, "\n")
-      h4shrainbow = hashlib.md5(passwd).hexdigest()
-      if h4sh in h4shrainbow:
-        print Yellow+"["+h4sh+"]"+Default+"->"+Blue+"["+passwd+"]"+Default
-        sys.exit()
-      else:
-        print Yellow+"["+h4shrainbow+"]"+Default+"->"+Red+"["+passwd+"]"+Default
+def fileToList(fn):
+  txtfile = open(fn, "r")
+  txttable = []
+  for t in txtfile:
+    txttable.append(t.rstrip())
+  txtfile.close()
+  return txttable
+
+def Crack(passwd, h4sh):
+  h4shrainbow = hashlib.md5(passwd).hexdigest()
+  if h4sh in h4shrainbow:
+    print Yellow+"["+h4sh+"]"+Default+"->"+Blue+"["+passwd+"]"+Default
+    sys.exit()
+  else:
+    print Yellow+"["+h4shrainbow+"]"+Default+"->"+Red+"["+passwd+"]"+Default
 
 if len(sys.argv) < 3:
   print LightGreen+"[+] Usage: ",sys.argv[0]," <hashfile><pass length><mode>"+Default
@@ -127,10 +132,10 @@ if len(sys.argv) < 3:
 else:
   try:
     crackfile = sys.argv[1]
-    for rain in rainbow(int(sys.argv[2]), sys.argv[3]):
-      Crack(rain)
-  except:
-    pass
-
-
+    hast_list = fileToList(crackfile)
+    for hl in hast_list:
+      for rain in rainbow(int(sys.argv[2]), sys.argv[3]):
+        Crack(rain, hl)
+  except Exception as e:
+    print "Error: ", e
 
