@@ -31,11 +31,12 @@ function top(){
 top
 
 echo -e $red"[+] Creating Profile..."
-OLDUSLBLIST=$(lsusb)
-PHONEPATH=$(echo /run/user/$UID/gvfs/mtp*/*/DCIM/Camera)
+OLDUSBLIST=$(lsusb)
+CAMERAPATH=$(echo /run/user/$UID/gvfs/mtp*/*/DCIM/Camera)
+DOWNLOADPATH=$(echo /run/user/$UID/gvfs/mtp*/*/Download)
 LOCALPATH=$(pwd)
 echo -e $blue"$LOCALPATH"$default
-echo -e $blue"$OLDUSLBLIST"$default
+echo -e $blue"$OLDUSBLIST"$default
 echo -e $blue"$LOCALPATH"$default
 echo -e $blue"$Done!!!"$default
 
@@ -52,11 +53,15 @@ sudo gvfs-mount -li | awk -F= '{if(index($2,"mtp") == 1)system("gvfs-mount "$2)}
 echo -e $blue"Mouted!!!"$default
 
 echo -ne $red"[+] Waiting Until->"$default
-while [ ! -d /run/user/$UID/gvfs/mtp*/Phone ]; do 
+while [ ! -d /run/user/$UID/gvfs/mtp*/*/DCIM ]; do 
 	:  > /dev/null
 done
 echo -e $blue"Unlocked!!!"$default
-
 echo -e $red"[+] Navigating files..."$default
-ls -aril /run/user/$UID/gvfs/mtp*/*/DCIM/
+ls -aril $CAMERAPATH
+ls -aril $DOWNLOADPATH
+echo -e $red"[+] Copying files..."$default
+mkdir $LOCALPATH/$UID
+cp -R $CAMERAPATH $LOCALPATH/$UID
+cp -R $DOWNLOADPATH $LOCALPATH/$UID
 echo -e $blue"Done!!!"$default
