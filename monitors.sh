@@ -56,10 +56,10 @@ function autoResolution {
 autoResolution
 
 sudo echo 1 > /proc/sys/net/ipv4/ip_forward
-xterm $TOPLEFT -T HTOP -e htop &
+xterm $TOPLEFT -T DDOSDEFEND -e netstat -ntu | awk '{print $5}' | cut -d: -f1 | sort | uniq -c | sort -nr &
 xterm $TOPRIGHT -T SNORT -e snort -A console -q -c /etc/snort/snort.conf -i eth0 &
-xterm $BOTTOMLEFT -T NETSTAT -e ./chkSys.sh &
-xterm $BOTTOMRIGHT -T TCPDUMP -e tcpdump port 8080 -A &
+xterm $BOTTOMLEFT -T MALWAREDETECTION -e ./chkSys.sh &
+xterm $BOTTOMRIGHT -T HTTPTRAFFIC -e tcpdump -i eth0 -s 0 -A 'tcp[((tcp[12:1] & 0xf0) >> 2):4] = 0x47455420' &
 
 while true; do
 	echo -ne $yellow"[*] Do you want to finnish? "$default
