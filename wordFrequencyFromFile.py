@@ -29,7 +29,7 @@ def wordFrequency(sentence):
 			continue
 		else:
 			c = countWord(sentence[i], sentence)
-			if c > 1:
+			if c >= 1:
 				print sentence[i] + '=%s' % countWord(sentence[i], sentence)
 			
 if len(sys.argv) < 2:
