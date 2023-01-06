@@ -50,7 +50,7 @@ class PopulateDatabase:
 
             print(created,now,year)
             try:
-                cursor.execute("""INSERT INTO [lespot_archive].[dbo].[asset] (title, path, ext, datecreated, dateinserted, year, company, project) VALUES (?,?,?,?,?,?,?,?)""",title,path,ext,created,now,year,company,project).rowcount
+                cursor.execute("""INSERT INTO myTable (title, path, ext, datecreated, dateinserted, year, company, project) VALUES (?,?,?,?,?,?,?,?)""",title,path,ext,created,now,year,company,project).rowcount
                 conn.commit()
                 count += 1
             except:
