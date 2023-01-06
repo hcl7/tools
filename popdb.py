@@ -9,7 +9,7 @@ class PopulateDatabase:
         self.txtlst = self.FileToList()
 
     def dbconn(self):
-        conn_str = 'Driver={SQL Server};Server=DESKTOP-09NO8V1;Database=lespot_archive;UID=seven;PWD=root@123;Trusted_Connection=yes;'
+        conn_str = 'connection string here'
         conn = pyodbc.connect(conn_str)
         return conn
 
