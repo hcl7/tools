@@ -16,16 +16,15 @@ transparent="\e[0m"
 
 # Design
 function top(){
-	clear
-	sleep 0.1 && echo -e "$blue "
- 		sleep 0.1 && echo -e "	 ___  _____   _____ _ __  "
-		sleep 0.1 && echo -e "	/ __|/ _ \ \ / / _ \ |_ \ "
-		sleep 0.1 && echo -e "	\__ \  __/\ V /  __/ | | |"
-		sleep 0.1 && echo -e "	|___/\___| \_/ \___|_| |_|"
-                         
+        clear
+        sleep 0.1 && echo -e "$blue "
+                sleep 0.1 && echo -e "   ___  _____   _____ _ __  "
+                sleep 0.1 && echo -e "  / __|/ _ \ \ / / _ \ |_ \ "
+                sleep 0.1 && echo -e "  \__ \  __/\ V /  __/ | | |"
+                sleep 0.1 && echo -e "  |___/\___| \_/ \___|_| |_|"
         sleep 0.1 && echo -e "$transparent"
-	echo
-	echo
+        echo
+        echo
 }
 
 top
@@ -38,18 +37,24 @@ fi
 #PID=()
 #PID=$(ps -ej --no-headers | awk '{print $1}')
 while (true); do
-	nts=$(netstat -antp | awk '{print $7}' | grep '/' | sed 's/\/.*//')
-	echo -e $red"Looking for PIDs!"$transparent
-	for i in ${nts}
-	do
-		lsof -p $i | grep 'bin' &> /dev/null
-		if [ $? == 0 ]; then
-			echo -ne $green"[+] Result for PID $i ->"$transparent
-			lsof -p $i | grep 'bin' | awk '{print $9}'
-		fi
-	done
-	echo -e $blue"Done!!!"$transparent
-	sleep 12
-	tput cup 8 0 && tput ed
+        nts=$(netstat -antp | awk '{print $7}' | grep '/' | sed 's/\/.*//')
+        echo -e $red"Looking for PIDs!"$transparent
+        for i in ${nts}
+        do
+                #lsof -p $i | grep 'bin' &> /dev/null
+                if [ $? == 0 ]; then
+                        result=$(sudo lsof -p $i 2>/dev/null | grep bin | awk '{print $9}')
+                        if [[ -z $result ]] && echo '';
+                        then
+                                continue
+                        else
+                                echo -ne $green"[+] Result for PID $i ->"$transparent
+                                #sudo lsof -e /run/user/1000/gvfs -e /run/user/1000/doc -p $i | grep bin | awk '{print $9}'
+                                echo $result
+                        fi
+                fi
+        done
+        echo -e $blue"Done!!!"$transparent
+        sleep 12
+        tput cup 8 0 && tput ed
 done
-
