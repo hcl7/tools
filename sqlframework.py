@@ -62,8 +62,6 @@ class DynamicSQLManager:
 
         try:
             cursor = self.connection.cursor()
-
-            # Retrieve table names and columns
             cursor.execute("SELECT table_name, column_name FROM INFORMATION_SCHEMA.COLUMNS")
             for row in cursor.fetchall():
                 table_name, column_name = row[0], row[1]
@@ -71,7 +69,6 @@ class DynamicSQLManager:
                     self.schema['tables'][table_name] = []
                 self.schema['tables'][table_name].append(column_name)
 
-            # Retrieve foreign key information
             cursor.execute("SELECT fk.name AS constraint_name, OBJECT_NAME(fk.parent_object_id) AS table_name, cp.name AS column_name, OBJECT_NAME(fk.referenced_object_id) AS referenced_table_name, cr.name AS referenced_column_name FROM sys.foreign_keys fk INNER JOIN sys.foreign_key_columns fkc ON fk.object_id = fkc.constraint_object_id INNER JOIN sys.columns cp ON cp.object_id = fkc.parent_object_id AND cp.column_id = fkc.parent_column_id INNER JOIN sys.columns cr ON cr.object_id = fkc.referenced_object_id AND cr.column_id = fkc.referenced_column_id")
             for row in cursor.fetchall():
                 constraint_name, table_name, column_name, referenced_table_name, referenced_column_name = row
@@ -159,7 +156,6 @@ class DynamicSQLManager:
         if self.connection:
             self.connection.close()
 
-# Example usage of the DynamicSQLManager
 if __name__ == "__main__":
     dynamic_sql_manager = DynamicSQLManager(
         server="ip",
