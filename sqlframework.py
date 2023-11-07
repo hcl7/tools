@@ -162,10 +162,10 @@ class DynamicSQLManager:
 # Example usage of the DynamicSQLManager
 if __name__ == "__main__":
     dynamic_sql_manager = DynamicSQLManager(
-        server="192.168.7.7",
-        database="NorthWind",
-        username="seven",
-        password="root@123",
+        server="ip",
+        database="db",
+        username="",
+        password="",
         port=1433
     )
 
