@@ -1,6 +1,7 @@
 import pymssql
 import argparse
 import os
+import json
 
 Black = '\x1b[30m'
 Red = '\x1b[31m'
@@ -117,7 +118,7 @@ class DynamicSQLManager:
         for table in tables:
             if table not in self.schema['tables']:
                 raise ValueError(f"{LightRed}[*] Table '{table}' does not exist in the schema.{Default}")
-            
+
             table_columns = self.schema['tables'][table]
             columns.extend([f"{table}.{column}" for column in table_columns])
 
@@ -156,13 +157,24 @@ class DynamicSQLManager:
         if self.connection:
             self.connection.close()
 
+def load_config(file_path):
+    try:
+        with open(file_path, 'r') as config_file:
+            config = json.load(config_file)
+        return config
+    except Exception as e:
+        print(f"{LightRed}[*] Error loading configuration from JSON file: {e}")
+        return None
+
 if __name__ == "__main__":
+
+    config = load_config('sqlpyframework.json')
     dynamic_sql_manager = DynamicSQLManager(
-        server="ip",
-        database="db",
-        username="",
-        password="",
-        port=1433
+        server=config['server'],
+        database=config['database'],
+        username=config['username'],
+        password=config['password'],
+        port=config['port']
     )
 
     description = f"{Cyan}Dynamic SQL Query Generator{Default}"
