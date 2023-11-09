@@ -133,7 +133,7 @@ class DynamicSQLManager:
                     if column not in self.schema['tables'][table]:
                         print(f"{LightRed}[*] Column '{column}' not found in table '{table}'!...{Default}")
                     else:
-                        condition = f"{table}.{column} = %s"
+                        condition = f"{table}.{column} LIKE CONCAT('%', %s, '%')"
                         conditions.append(condition)
 
         return conditions
