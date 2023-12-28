@@ -47,12 +47,14 @@ foreach ($file in $fileList) {
         continue
     }
 
-    if (Test-FileLock -Path $file.FullName) {
-        Write-Host "File $($file.Name) is in use, skipping..."
-        continue
+    try {
+	$stream = [System.IO.File]::Open($file.FullName, 'Open', 'Read', 'None')
+        $stream.Close()
+        Write-Host "[+] Copying file $($file.Name) to folder: $folderPath"
+        Copy-Item -Path $file.FullName -Destination $destinationPath -ErrorAction Stop
+    } catch {
+        Write-Host "[*] File $($file.Name) is in use, skipping..."
     }
-    Write-Host "[+] Copying file $($file.Name) to folder: $folderPath"
-    Copy-Item -Path $file.FullName -Destination $destinationPath
 }
 
 Write-Host "[+] Done!..."
