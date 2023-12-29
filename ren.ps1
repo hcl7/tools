@@ -58,8 +58,7 @@ foreach ($file in $fileList) {
         Write-Host "[-] Destination file $destinationName already exists, skipping..."
         continue
     }
-
-    # Rename the file
+    
     Write-Host "[+] Renaming file $($file.Name) to $destinationName"
     Rename-Item -Path $file.FullName -NewName "$destinationName" -ErrorAction SilentlyContinue
 }
