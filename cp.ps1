@@ -24,7 +24,7 @@ function Logo {
 Logo
 
 if (-not $s -or -not $d) {
-    Write-Host "[+] Usage: .\move.ps1 -s 'D:\Source' -d 'F:\dest'"
+    Write-Host "[+] Usage: .\cp.ps1 -s 'D:\Source' -d 'F:\dest'"
     exit
 }
 
