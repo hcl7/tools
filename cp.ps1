@@ -42,7 +42,7 @@ foreach ($file in $fileList) {
     }
 
     $destinationPath = Join-Path -Path $folderPath -ChildPath $file.Name
-	if (Test-Path -Path $destinationPath -PathType Leaf) {
+    if (Test-Path -Path $destinationPath -PathType Leaf) {
         Write-Host "File $($file.Name) already exists in folder: $folderPath, skipping..."
         continue
     }
